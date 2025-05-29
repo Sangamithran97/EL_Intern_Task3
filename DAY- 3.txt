@@ -1,0 +1,38 @@
+Task-3
+
+To perform a basic vulnerability scan on your PC.
+Tools used: Neesus Essentials
+
+After installing Neesus Essentials and downloading all the required plugins I have started the 'Basic Vulnerability Scan' and found these vulnerabilities in my pc:
+
+1) I found a high level vulnerability which is Oracle TNS Listener Remote Poisoning.
+   
+   Description:
+	The remote oracle TNS listener allows service registration from a remote host. This can allow attackers to divert data from a legitimate database to attacker's system. Successful attacks can lead attackers to manipulate data in database, facilitating man-in-the-middle attacks, session hijacking or denial of service attacks on a legitimate database.
+
+   Fix:
+	The problem is that the listener accepts attacker claiming to be providing the same database as the user. So, it sends the data to attackers ip and ports instead of user. So the fix is to change the oracle settings such that it only accepts the registered IP that are given as input by the user in sqlnet.ora and we should enable TCP.VALIDNODE_CHECKING=YEs and also specify the TCP.INVITED_NODES.
+
+2) I also found a medium level vulnerability which is SMB signing not required
+
+   Description:
+	Signing is not required in the remote SMB server. An attacker can exploit this vulnerability to perform a man-in-the-middle attacks against the SMB server.
+
+   Fix:
+	Enforce message signing in the host's configuration. On Windows, this is found in the policy setting 'Microsoft network server: Digitally sign communications (always). The step is to press Windows+R type gpedit.msc then, Computer Configuration->Windows Settings->Security Settings->Local Policies->Security Options and enable the digitally sign communications(always) and the (if server agrees), (if client agrees).This helps ensure that when files are shared there is no man-in-the-middle attacks performed.
+
+3) I also found SSL(Multiple Issues) and TSL(Multiple issues)
+
+   Description(SSL): 
+	It found that the SSL certificates used in my PC are self signed and not to be trusted as they are not signed by a public Certificate Authority.
+
+   Fix: 
+	As i am not hosting any websites and only using localhosts these are not really a problem and if i need to get a x.509 certificate i can approach any public CAs like DigiCert or GoDaddy)
+
+   Description(TLS):
+	The Transport Layer Security vulnerability shows when our system uses a older version of tls like TLS 1.0 or 1.1 as they are known to be vulnerable to attackers.
+
+   Fix:
+	We should disable support to older versions like TLS 1.0 and 1.1 and provide support to latest versions like TLS 1.2 and 1.3 which are more secure and this can be done in our PCs settings and these are not really a problem until you are hosting a public facing server like Apache Tomcat or FTPs.
+
+4) Also i found some other info level vulnerabilities which are not really a vulnerabity to be concerned of, so we can leave that vulnerabilities and need not to worry about that. 
